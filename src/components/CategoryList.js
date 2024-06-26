@@ -49,7 +49,7 @@ const CategoryList = () => {
           ) : (
             categoryProduct.map((product, index) => {
               return (
-                <Link to={"product-category/" + product?.category} className='cursor-pointer' key={product?.category+index}>
+                <Link to={"product-category?category=" + product?.category} className='cursor-pointer' key={product?.category+index}>
                   <div className=' h-16 w-16 md:w-20 md:h-20 rounded-full overflow-hidden bg-slate-200 p-4 flex justify-center items-center '>
                     <img src={product?.productImage[0]} alt={product?.category} className='h-full object-scale-down mix-blend-multiply hover:scale-125 translate-all ' />
                   </div>

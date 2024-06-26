@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react'
-import Logo from './Logo'
+// import Logo from './Logo'
 import { IoSearch } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import SummeryApi from '../common/index'
 import { toast } from 'react-toastify'
@@ -11,7 +11,8 @@ import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../store/userSlice';
 import role from '../common/role'
 import Context from '../context';
-import amazon from '../assest/png-transparent-amazon-com-amazon-alexa-retail-amazon-prime-order-fulfillment-amazon-miscellaneous-company-text.png'
+import amazon from '../assest/509-5094372_black-amazon-logo-transparent-hd-png-download-removebg-preview.png'
+
 
 
 const Header = () => {
@@ -19,6 +20,18 @@ const Header = () => {
   const dispatch = useDispatch()
 
   const context = useContext(Context)
+
+  const navigate = useNavigate()
+
+  const searchInput= useLocation()
+  const URLSearch = new URLSearchParams(searchInput?.search)
+  const searchQuery = URLSearch.getAll("q")
+  const [search,setSearch] = useState(searchQuery)
+
+  
+
+
+ 
 
 
   const [menuDisplay, setMenuDisplay] = useState(false)
@@ -38,6 +51,7 @@ const Header = () => {
     if (json.success) {
       toast.success(json.message)
       dispatch(setUserDetails(null))
+      navigate('/')
 
     }
 
@@ -48,7 +62,20 @@ const Header = () => {
   }
 
 
-  // console.log("context", context)
+  const handleSearch =(e)=>{
+    const {value} = e.target
+    setSearch(value)
+    
+    if(value){
+      navigate(`/search?q=${value}`)
+    }
+    else{
+      navigate('/search')
+
+    }
+
+  }
+
 
 
   return (
@@ -62,7 +89,7 @@ const Header = () => {
         </div>
 
         <div className=' hidden lg:flex  items-center mx-w-sm border justify-center rounded-full focus-within:shadow-md pl-2'>
-          <input type="text" placeholder='Search Product here..' className=' outline-none ' />
+          <input type="text" placeholder='Search Product here..' className=' outline-none ' onChange={handleSearch} value={search} />
           <div className='flex items-center text-lg min-w-[50px] h-8 bg-red-500 justify-center rounded-r-full text-white'>
             <IoSearch />
           </div>

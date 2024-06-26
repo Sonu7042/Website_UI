@@ -6,6 +6,7 @@ import { FaAngleLeft } from "react-icons/fa6";
 import addToCard from '../helpers/addToCard';
 import { Link } from 'react-router-dom';
 import Context from '../context';
+import scrollTop from '../helpers/scrollTop';
 
 const VerticalCardProduct = ({ category, heading }) => {
 
@@ -91,7 +92,7 @@ const VerticalCardProduct = ({ category, heading }) => {
                     ) : (
                         data.map((product, index) => {
                             return (
-                                <Link to={'product/' + product._id} className='bg-white  w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px]' key={index}>
+                                <Link to={'/product/' + product._id} className='bg-white  w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px]' key={index} onClick={scrollTop}>
 
                                     <div className='flex justify-center items-center  h-48 w-full bg-slate-200 min-w-[180px] md:min-w-[145px] p-2'>
                                         <img src={product?.productImage[0]} alt="" className='object-scale-down h-full hover:scale-110 translate-all mix-blend-multiply' />

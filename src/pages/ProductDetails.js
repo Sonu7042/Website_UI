@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import SummeryApi from '../common/index'
 import { FaStar } from "react-icons/fa";
 import { FaStarHalf } from "react-icons/fa";
 import displayINRCurency from '../helpers/displayCurrency';
 import VerticalCardProduct from '../components/VerticalCardProduct';
+import addToCard from '../helpers/addToCard';
+import Context from '../context';
 
 
 const ProductDetails = () => {
@@ -30,6 +32,10 @@ const ProductDetails = () => {
 
   const [zoomImage, setZoomImage] = useState(false)
 
+  const {fetchUserAddToCart}= useContext(Context)
+
+  const navigate =useNavigate()
+
 
 
   const fetchProductDetails = async () => {
@@ -54,7 +60,7 @@ const ProductDetails = () => {
   useEffect(() => {
     fetchProductDetails()
 
-  }, [])
+  }, [param])
 
 
   const handleMouseEnterProduct = (image) => {
@@ -62,7 +68,7 @@ const ProductDetails = () => {
   }
 
 
-  const handleLeaveImageZoom=()=>{
+  const handleLeaveImageZoom = () => {
     setZoomImage(false)
   }
 
@@ -88,7 +94,21 @@ const ProductDetails = () => {
     })
   }, [])
 
-  console.log("zoomImageCoordinate", zoomImageCoordinate)
+
+
+
+  const handleAddToCart = async (e, id) => {
+    await addToCard(e, id)
+    fetchUserAddToCart()
+  }
+
+
+  const handleBuyProduct = async (e, id) => {
+    await addToCard(e, id)
+    fetchUserAddToCart()
+    navigate('/cart')
+  }
+
 
 
 
@@ -106,7 +126,7 @@ const ProductDetails = () => {
         <div className='h-96 flex flex-col lg:flex-row-reverse gap-2 '>
 
           <div className='w-[370px] h-[300px] lg:h-96 lg:w-96 bg-slate-200 relative p-2'>
-            <img src={activeImage} className='w-full h-full object-scale-down mix-blend-multiply' onMouseMove={handleZoomImage}  onMouseLeave={handleLeaveImageZoom}/>
+            <img src={activeImage} className='w-full h-full object-scale-down mix-blend-multiply' onMouseMove={handleZoomImage} onMouseLeave={handleLeaveImageZoom} />
 
             {/* product zoom */}
             {
@@ -118,7 +138,7 @@ const ProductDetails = () => {
                       backgroundImage: `url(${activeImage})`,
                       backgroundRepeat: 'no-repeat',
                       backgroundPosition: `${zoomImageCoordinate.x * 100}% ${zoomImageCoordinate.y * 100}%`
-                     
+
 
                     }}
                   >
@@ -225,8 +245,8 @@ const ProductDetails = () => {
               </div>
 
               <div className='flex gap-3 items-center my-2' >
-                <button className='border-2 border-red-600 px-3 py-1 rounded min-w-[120px] text-red-600 text-medium hover:bg-red-600 hover:text-white'>Buy</button>
-                <button className='border-2 border-red-600 px-3 py-1 rounded min-w-[120px] text-white bg-red-600 text-medium hover:bg-white hover:text-red-600'>Add To Cart</button>
+                <button className='border-2 border-red-600 px-3 py-1 rounded min-w-[120px] text-red-600 text-medium hover:bg-red-600 hover:text-white' onClick={(e)=>handleBuyProduct(e, data._id)} >Buy</button>
+                <button className='border-2 border-red-600 px-3 py-1 rounded min-w-[120px] text-white bg-red-600 text-medium hover:bg-white hover:text-red-600' onClick={(e)=>handleAddToCart(e, data._id)}>Add To Cart</button>
               </div>
 
               <div>
@@ -245,7 +265,7 @@ const ProductDetails = () => {
 
       {
         data.category && (
-          <VerticalCardProduct   category={data.category} heading={"Recommand Products"}/>
+          <VerticalCardProduct category={data.category} heading={"Recommand Products"} />
         )
 
       }
