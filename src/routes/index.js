@@ -77,7 +77,6 @@ const router = createBrowserRouter([
                 element : <SearchProduct/>
             }
 
-
         ]
     }
 ])

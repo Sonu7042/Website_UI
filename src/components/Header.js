@@ -82,6 +82,7 @@ const Header = () => {
     <header className='h-16 shadow-md bg-white fixed w-full z-40'>
       <div className=' h-full flex items-center container mx-auto px-4 justify-between'>
         <div className='flex items-center '>
+          
           <Link to='/'>
             {/* <Logo h={50} width={90} /> */}
             <img src={amazon} alt="" className='mix-blend-multiply' width={100} />

@@ -81,7 +81,7 @@ const BannerProduct = () => {
 
 
          {/* desktop version images */}
-        <div className='flex w-full h-full overflow-hidden hidden md:flex'>
+        <div className='flex w-full h-full overflow-hidden  md:flex'>
           {
             deskstopImages.map((imageUrl, index) => {
               return (
@@ -109,9 +109,6 @@ const BannerProduct = () => {
             })
           }
         </div>
-
-
-      
       </div>
     </div>
   )
